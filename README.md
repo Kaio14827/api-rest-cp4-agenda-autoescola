@@ -73,11 +73,11 @@ Parâmetros de Conexão:
 - Password: (deixe em branco)
 
 
-
 ## 📚 6. Documentação da API (Swagger)
 A documentação interativa da API foi gerada para facilitar os testes dos endpoints de autenticação, usuários e agendamentos. Com a aplicação em execução, acesse:
 
 👉 Swagger UI: http://localhost:8086/swagger-ui/index.html (ou conforme o caminho padrão configurado no Springdoc)
+
 
 ## 🔒 7. Segurança e Autenticação (JWT)
 > *Arquitetura de controle de acesso Stateless baseada em tokens.*
@@ -88,3 +88,7 @@ A API adota um modelo de segurança totalmente Stateless (sem estado na sessão 
 - **Validação:** O *Spring Security* valida as credenciais contra a base de dados.
 - **Emissão de Token:** Sendo válidas, o sistema gera um Token JWT assinado criptograficamente utilizando a chave secreta definida nas propriedades `(api.security.token.secret).`
 - **Requisições Protegidas:** O cliente deve anexar o token no cabeçalho (Header) de todas as requisições subsequentes:
+
+```bash
+Authorization: Bearer <seu_token_jwt>
+```
