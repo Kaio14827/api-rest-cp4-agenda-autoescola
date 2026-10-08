@@ -1,6 +1,7 @@
 package br.com.fiap3esph.autoescola3esph.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,17 +25,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/login").permitAll();
 
-                    // Apenas ADMIN gerencia usuários
+                    // Libera o console do H2
+                    req.requestMatchers(PathRequest.toH2Console()).permitAll();
+
+                    // Libera o Swagger UI e documentação
+                    req.requestMatchers(
+                            "/swagger-ui/**",
+                            "/swagger-ui.html",
+                            "/v3/api-docs/**",
+                            "/swagger-resources/**",
+                            "/webjars/**"
+                    ).permitAll();
+
+                    // Regras de Usuários
                     req.requestMatchers(HttpMethod.POST, "/usuarios").hasRole("ADMIN");
                     req.requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN");
                     req.requestMatchers(HttpMethod.PUT, "/usuarios").hasRole("ADMIN");
                     req.requestMatchers(HttpMethod.DELETE, "/usuarios/*").hasRole("ADMIN");
-
-                    // Qualquer usuário autenticado pode alterar a própria senha
                     req.requestMatchers(HttpMethod.PATCH, "/usuarios/alterar-senha").authenticated();
 
                     req.anyRequest().authenticated();
