@@ -1,4 +1,4 @@
-# 🚗 API REST de Agendamento de Instruções (AutoEscola3ESPH)
+# 🚗 CP5 (Continuação)| API REST de Agendamento de Instruções (AutoEscola3ESPH)
 > *Uma API REST robusta desenvolvida com Spring Boot para gerenciar o agendamento de aulas práticas e teóricas, controle de usuários (alunos, instrutores e administradores), autenticação segura e persistência em banco de dados em memória em uma autoescola.*
 
 ## 👥 Desenvolvedores
